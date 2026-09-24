@@ -1,0 +1,54 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Manifest is valid JSON
+        run: |
+          set -euo pipefail
+          jq -e '.version and .architecture."64bit".url and .architecture.arm64.url' bucket/locally.json
+
+  install:
+    if: github.event_name == 'pull_request'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2022, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Scoop
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+          "$env:USERPROFILE\scoop\shims" | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+
+      - name: Install locally from manifest
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          scoop install "$(Resolve-Path bucket/locally.json)"
+
+      - name: Smoke-test installed binary
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          locally version
