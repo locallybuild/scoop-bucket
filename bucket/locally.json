@@ -1,16 +1,16 @@
 {
-    "version": "2026.09.03",
+    "version": "2026.10",
     "description": "Local Azure environment that runs entirely on your machine",
     "homepage": "https://locally.build/",
     "license": "Proprietary",
     "architecture": {
         "64bit": {
-            "url": "https://get.locally.build/v1/cli/2026.09.03/windows/amd64#/locally.tar.gz",
-            "hash": "4b561395fd67a42bc5eca85cf2dff71a7e02ea351b7d793d8265cc5db14d0a8a"
+            "url": "https://get.locally.build/v1/cli/2026.10/windows/amd64#/locally.tar.gz",
+            "hash": "424e2b145417508318214d61dfb9b95c3f19b9415870123931da357af2197a98"
         },
         "arm64": {
-            "url": "https://get.locally.build/v1/cli/2026.09.03/windows/arm64#/locally.tar.gz",
-            "hash": "31bba89765b11fdef259e8f89bbbb2642781071aa9fc954eda983f1485b784ed"
+            "url": "https://get.locally.build/v1/cli/2026.10/windows/arm64#/locally.tar.gz",
+            "hash": "e345f53b310602e5235d4f8ccb1705071c11e2c0ed4e7249087be85453f3b032"
         }
     },
     "bin": "locally.exe",
